@@ -1,0 +1,26 @@
+package ro.andramates.realestate.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import ro.andramates.realestate.domain.Message;
+import ro.andramates.realestate.domain.User;
+
+import java.util.List;
+
+public interface MessageRepository extends JpaRepository<Message, Integer> {
+
+    List<Message> findBySender(User sender);
+
+    List<Message> findByReceiver(User receiver);
+
+    List<Message> findBySenderAndReceiver(User sender, User receiver);
+
+    @Query("""
+            SELECT m
+            FROM Message m
+            WHERE (m.sender.id = :userId1 AND m.receiver.id = :userId2)
+               OR (m.sender.id = :userId2 AND m.receiver.id = :userId1)
+            ORDER BY m.sentAt ASC
+            """)
+    List<Message> findConversation(Integer userId1, Integer userId2);
+}
