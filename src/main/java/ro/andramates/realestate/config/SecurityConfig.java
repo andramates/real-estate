@@ -23,7 +23,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
@@ -35,11 +34,13 @@ public class SecurityConfig {
                                 "/js/**",
                                 "/images/**",
                                 "/error/**",
-                                "/favicon.ico"
+                                "/favicon.ico",
+                                "/properties",
+                                "/properties/*"
                         ).permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/buyer/**").hasRole("BUYER")
                         .requestMatchers("/seller/**").hasRole("SELLER")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login

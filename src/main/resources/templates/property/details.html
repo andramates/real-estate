@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Property Details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="hero-page">
+    <div class="hero-card" style="grid-template-columns: 1fr;">
+        <main class="hero-main">
+            <header class="hero-topbar">
+                <div>
+                    <h1 th:text="${property.title}">Property title</h1>
+                    <p th:text="${property.location}">Property location</p>
+                </div>
+                <div class="topbar-actions">
+                    <a th:href="@{/properties}" class="pill-btn">Back to list</a>
+                </div>
+            </header>
+
+            <section class="hero-content">
+                <div class="hero-panel">
+                    <div class="hero-chip" th:text="${property.status}">APPROVED</div>
+                    <h2 th:text="${property.title}">Title</h2>
+                    <p th:text="${property.description}">Description</p>
+                    <p><strong th:text="${property.price} + ' €'">Price</strong></p>
+                    <p>Seller: <strong th:text="${property.seller.username}">seller</strong></p>
+
+                    <div class="hero-actions">
+                        <form th:action="@{'/buyer/favorites/' + ${property.id}}" method="post">
+                            <button class="btn btn-primary" type="submit">Add to favorites</button>
+                        </form>
+                        <a class="btn btn-secondary" th:href="@{/properties}">Back</a>
+                    </div>
+                </div>
+
+                <div class="side-column">
+                    <div class="search-panel">
+                        <h3>Seller info</h3>
+                        <p>Email: <span th:text="${property.seller.email}"></span></p>
+                        <p>Phone: <span th:text="${property.seller.phone}"></span></p>
+                        <a class="btn btn-primary" th:href="@{'/buyer/messages/' + ${property.seller.id}}">Contact seller</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+</body>
+</html>

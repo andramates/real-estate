@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Messages</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="hero-page">
+    <div class="hero-card" style="grid-template-columns: 1fr;">
+        <main class="hero-main">
+            <header class="hero-topbar">
+                <div>
+                    <h1>Messages</h1>
+                    <p th:if="${#authorization.expression('hasRole(''BUYER'')')}">
+                        Vezi conversațiile tale cu sellerii și trimite mesaje rapid.
+                    </p>
+                    <p th:if="${#authorization.expression('hasRole(''SELLER'')')}">
+                        Vezi conversațiile tale cu buyerii și răspunde rapid la întrebări.
+                    </p>
+                </div>
+
+                <div class="topbar-actions">
+                    <a th:if="${#authorization.expression('hasRole(''BUYER'')')}"
+                       th:href="@{/buyer}"
+                       class="pill-btn">Dashboard</a>
+
+                    <a th:if="${#authorization.expression('hasRole(''SELLER'')')}"
+                       th:href="@{/seller}"
+                       class="pill-btn">Dashboard</a>
+                </div>
+            </header>
+
+            <section class="hero-content" style="grid-template-columns: 380px 1fr;">
+                <div class="search-panel">
+                    <h3>Conversations</h3>
+
+                    <div th:if="${#lists.isEmpty(conversationList)}">
+                        <p th:if="${#authorization.expression('hasRole(''BUYER'')')}">
+                            Nu ai încă mesaje. Poți începe o conversație din pagina unei proprietăți.
+                        </p>
+
+                        <p th:if="${#authorization.expression('hasRole(''SELLER'')')}">
+                            Nu ai încă mesaje de la buyeri.
+                        </p>
+                    </div>
+
+                    <div th:each="item : ${conversationList}" class="mini-stat" style="margin-bottom: 16px;">
+                        <div class="mini-stat-value" style="font-size: 22px;" th:text="${item.username}">username</div>
+
+                        <div class="auth-actions" style="margin-top: 12px;">
+                            <a th:if="${#authorization.expression('hasRole(''BUYER'')')}"
+                               th:href="@{'/buyer/messages/' + ${item.userId}}"
+                               class="btn btn-secondary">Open</a>
+
+                            <a th:if="${#authorization.expression('hasRole(''SELLER'')')}"
+                               th:href="@{'/seller/messages/' + ${item.userId}}"
+                               class="btn btn-secondary">Open</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-panel" th:if="${otherUser != null}">
+                    <h3>
+                        Conversation with
+                        <span th:text="${otherUser.username}">username</span>
+                    </h3>
+
+                    <div th:if="${#lists.isEmpty(messages)}">
+                        <p>Nu există încă mesaje în această conversație.</p>
+                    </div>
+
+                    <div th:each="message : ${messages}" class="mini-stat" style="margin-bottom: 16px;">
+                        <div class="mini-stat-label">
+                            <span th:text="${message.sender.username}">sender</span>
+                            →
+                            <span th:text="${message.receiver.username}">receiver</span>
+                        </div>
+
+                        <p th:text="${message.content}">content</p>
+
+                        <small style="color: var(--muted);" th:text="${#temporals.format(message.sentAt, 'dd-MM-yyyy HH:mm')}">
+                            26-03-2026 16:30
+                        </small>
+                    </div>
+
+                    <hr style="margin: 24px 0; border: none; border-top: 1px solid var(--line);">
+
+                    <h3>Send message</h3>
+
+                    <p th:if="${#authorization.expression('hasRole(''BUYER'')')}">
+                        Trimiți mesaj către sellerul
+                        <strong th:text="${otherUser.username}">username</strong>.
+                    </p>
+
+                    <p th:if="${#authorization.expression('hasRole(''SELLER'')')}">
+                        Trimiți răspuns către buyerul
+                        <strong th:text="${otherUser.username}">username</strong>.
+                    </p>
+
+                    <form th:action="@{${sendAction}}" th:object="${messageRequest}" method="post">
+                        <input type="hidden" th:field="*{receiverId}">
+
+                        <div class="form-group">
+                            <textarea class="form-textarea"
+                                      th:field="*{content}"
+                                      placeholder="Write your message"></textarea>
+                            <div class="field-error"
+                                 th:if="${#fields.hasErrors('content')}"
+                                 th:errors="*{content}"></div>
+                        </div>
+
+                        <div class="auth-actions">
+                            <button class="btn btn-primary" type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="search-panel" th:if="${otherUser == null}">
+                    <h3>Select a conversation</h3>
+
+                    <p th:if="${#authorization.expression('hasRole(''BUYER'')')}">
+                        Alege o conversație din stânga sau începe una nouă din pagina unei proprietăți.
+                    </p>
+
+                    <p th:if="${#authorization.expression('hasRole(''SELLER'')')}">
+                        Alege o conversație din stânga pentru a vedea mesajele primite de la buyeri.
+                    </p>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+</body>
+</html>

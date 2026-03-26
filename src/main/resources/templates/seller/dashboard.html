@@ -1,10 +1,78 @@
 <!DOCTYPE html>
 <html lang="ro" xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>Seller</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Seller Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
 <body>
-<h1>Seller Dashboard</h1>
-<form th:action="@{/logout}" method="post">
-    <button type="submit">Logout</button>
-</form>
+<div class="hero-page">
+    <div class="hero-card">
+        <aside class="hero-sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-logo">🏠</div>
+                <div class="sidebar-brand-text">
+                    <small>Seller Area</small>
+                    <strong th:text="${seller.username}">seller</strong>
+                </div>
+            </div>
+
+            <div class="sidebar-nav">
+                <a class="sidebar-link active" th:href="@{/seller}">Dashboard</a>
+                <a class="sidebar-link" th:href="@{/seller/properties}">My Properties</a>
+                <a class="sidebar-link" th:href="@{/seller/properties/add}">Add Property</a>
+                <a class="sidebar-link" th:href="@{/seller/messages}">Messages</a>
+            </div>
+        </aside>
+
+        <main class="hero-main">
+            <header class="hero-topbar">
+                <div>
+                    <h1>Seller Dashboard</h1>
+                    <p>Administrează proprietățile și urmărește statusul aprobărilor.</p>
+                </div>
+                <div class="topbar-actions">
+                    <form th:action="@{/logout}" method="post">
+                        <button class="pill-btn" type="submit">Logout</button>
+                    </form>
+                </div>
+            </header>
+
+            <section class="hero-content">
+                <div class="hero-panel">
+                    <div class="hero-chip">Seller workspace</div>
+                    <h2>Manage your listings with a cleaner workflow.</h2>
+                    <p>Vezi rapid starea proprietăților tale și accesează acțiunile principale.</p>
+
+                    <div class="stats-row">
+                        <div class="mini-stat">
+                            <div class="mini-stat-label">Pending</div>
+                            <div class="mini-stat-value" th:text="${pendingCount}">0</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-label">Approved</div>
+                            <div class="mini-stat-value" th:text="${approvedCount}">0</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-label">Rejected</div>
+                            <div class="mini-stat-value" th:text="${rejectedCount}">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-column">
+                    <div class="search-panel">
+                        <h3>Quick actions</h3>
+                        <div class="auth-actions" style="flex-direction: column; align-items: stretch;">
+                            <a class="btn btn-primary" th:href="@{/seller/properties/add}">Add property</a>
+                            <a class="btn btn-secondary" th:href="@{/seller/properties}">View my properties</a>
+                            <a class="btn btn-secondary" th:href="@{/seller/messages}">Messages</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
 </body>
 </html>

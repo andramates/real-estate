@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Approvals</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="hero-page">
+    <div class="hero-card" style="grid-template-columns: 1fr;">
+        <main class="hero-main">
+            <header class="hero-topbar">
+                <div>
+                    <h1>Pending Approvals</h1>
+                    <p>Administrează proprietățile care așteaptă aprobare.</p>
+                </div>
+                <div class="topbar-actions">
+                    <form th:action="@{/logout}" method="post">
+                        <button class="pill-btn" type="submit">Logout</button>
+                    </form>
+                </div>
+            </header>
+
+            <section class="hero-content" style="grid-template-columns: 1fr;">
+                <div class="search-panel">
+                    <div th:if="${#lists.isEmpty(pendingProperties)}">
+                        <p>Nu există proprietăți în așteptare.</p>
+                    </div>
+
+                    <div th:each="property : ${pendingProperties}" class="mini-stat" style="margin-bottom: 18px;">
+                        <div class="mini-stat-label" th:text="${property.location}">Location</div>
+                        <div class="mini-stat-value" th:text="${property.title}">Title</div>
+                        <p th:text="${property.description}">Description</p>
+                        <p>Seller: <strong th:text="${property.seller.username}"></strong></p>
+                        <p>Price: <strong th:text="${property.price} + ' €'"></strong></p>
+
+                        <div class="auth-actions">
+                            <form th:action="@{'/admin/properties/' + ${property.id} + '/approve'}" method="post">
+                                <button class="btn btn-primary" type="submit">Approve</button>
+                            </form>
+                            <form th:action="@{'/admin/properties/' + ${property.id} + '/reject'}" method="post">
+                                <button class="btn btn-secondary" type="submit">Reject</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+</body>
+</html>

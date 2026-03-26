@@ -4,9 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ro.andramates.realestate.domain.Message;
 import ro.andramates.realestate.domain.User;
+import ro.andramates.realestate.dto.ConversationItem;
 import ro.andramates.realestate.repository.MessageRepository;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -31,12 +35,29 @@ public class MessageService {
         return messageRepository.findByReceiver(receiver);
     }
 
-    public List<Message> findBySenderAndReceiver(User sender, User receiver) {
-        return messageRepository.findBySenderAndReceiver(sender, receiver);
+    public List<Message> findInbox(User receiver) {
+        return messageRepository.findByReceiverOrderBySentAtDesc(receiver);
     }
 
     public List<Message> findConversation(Integer userId1, Integer userId2) {
         return messageRepository.findConversation(userId1, userId2);
+    }
+
+    public List<ConversationItem> findConversationList(User currentUser) {
+        List<Message> allMessages = messageRepository.findAll();
+        Map<Integer, ConversationItem> map = new LinkedHashMap<>();
+
+        for (Message message : allMessages) {
+            if (message.getSender().getId().equals(currentUser.getId())) {
+                User other = message.getReceiver();
+                map.putIfAbsent(other.getId(), new ConversationItem(other.getId(), other.getUsername()));
+            } else if (message.getReceiver().getId().equals(currentUser.getId())) {
+                User other = message.getSender();
+                map.putIfAbsent(other.getId(), new ConversationItem(other.getId(), other.getUsername()));
+            }
+        }
+
+        return new ArrayList<>(map.values());
     }
 
     public Message save(Message message) {

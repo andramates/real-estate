@@ -1,10 +1,81 @@
 <!DOCTYPE html>
 <html lang="ro" xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>Buyer</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Buyer Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
 <body>
-<h1>Buyer Dashboard</h1>
-<form th:action="@{/logout}" method="post">
-    <button type="submit">Logout</button>
-</form>
+<div class="hero-page">
+    <div class="hero-card">
+        <aside class="hero-sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-logo">🏡</div>
+                <div class="sidebar-brand-text">
+                    <small>Buyer Area</small>
+                    <strong th:text="${buyer.username}">buyer</strong>
+                </div>
+            </div>
+
+            <div class="sidebar-nav">
+                <a class="sidebar-link active" th:href="@{/buyer}">Dashboard</a>
+                <a class="sidebar-link" th:href="@{/properties}">Search Properties</a>
+                <a class="sidebar-link" th:href="@{/buyer/favorites}">Favorites</a>
+                <a class="sidebar-link" th:href="@{/buyer/messages}">Messages</a>
+            </div>
+        </aside>
+
+        <main class="hero-main">
+            <header class="hero-topbar">
+                <div>
+                    <h1>Buyer Dashboard</h1>
+                    <p>Descoperă proprietăți, gestionează favoritele și urmărește conversațiile tale.</p>
+                </div>
+                <div class="topbar-actions">
+                    <form th:action="@{/logout}" method="post">
+                        <button class="pill-btn" type="submit">Logout</button>
+                    </form>
+                </div>
+            </header>
+
+            <section class="hero-content">
+                <div class="hero-panel">
+                    <div class="hero-chip">Buyer workspace</div>
+                    <h2>Find and save the right property faster.</h2>
+                    <p>
+                        Explorează proprietăți aprobate, salvează favorite și contactează sellerii
+                        direct din platformă.
+                    </p>
+
+                    <div class="stats-row">
+                        <div class="mini-stat">
+                            <div class="mini-stat-label">Saved favorites</div>
+                            <div class="mini-stat-value" th:text="${favoritesCount}">0</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-label">Messages</div>
+                            <div class="mini-stat-value" th:text="${messagesCount}">0</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-label">Available listings</div>
+                            <div class="mini-stat-value" th:text="${approvedPropertiesCount}">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-column">
+                    <div class="search-panel">
+                        <h3>Quick actions</h3>
+                        <div class="auth-actions" style="flex-direction: column; align-items: stretch;">
+                            <a class="btn btn-primary" th:href="@{/properties}">Explore properties</a>
+                            <a class="btn btn-secondary" th:href="@{/buyer/favorites}">View favorites</a>
+                            <a class="btn btn-secondary" th:href="@{/buyer/messages}">Open messages</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
 </body>
 </html>

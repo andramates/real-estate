@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Properties</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="hero-page">
+    <div class="hero-card" style="grid-template-columns: 1fr;">
+        <main class="hero-main">
+            <header class="hero-topbar">
+                <div>
+                    <h1>My Properties</h1>
+                    <p>Gestionează listările tale dintr-un singur loc.</p>
+                </div>
+                <div class="topbar-actions">
+                    <a th:href="@{/seller}" class="pill-btn">Dashboard</a>
+                    <a th:href="@{/seller/properties/add}" class="pill-btn">Add Property</a>
+                </div>
+            </header>
+
+            <section class="hero-content" style="grid-template-columns: 1fr;">
+                <div class="search-panel">
+                    <div th:if="${#lists.isEmpty(properties)}">
+                        <p>Nu ai proprietăți încă.</p>
+                    </div>
+
+                    <div th:each="property : ${properties}" class="mini-stat" style="margin-bottom: 18px;">
+                        <div class="mini-stat-label" th:text="${property.location}">Location</div>
+                        <div class="mini-stat-value" th:text="${property.title}">Title</div>
+                        <p>Status: <strong th:text="${property.status}"></strong></p>
+                        <p><strong th:text="${property.price} + ' €'"></strong></p>
+
+                        <div class="auth-actions">
+                            <a class="btn btn-secondary" th:href="@{'/seller/properties/edit/' + ${property.id}}">Edit</a>
+                            <form th:action="@{'/seller/properties/delete/' + ${property.id}}" method="post">
+                                <button class="btn btn-primary" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+</body>
+</html>

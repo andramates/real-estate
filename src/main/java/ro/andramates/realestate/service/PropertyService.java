@@ -32,16 +32,12 @@ public class PropertyService {
         return propertyRepository.findByStatus(status);
     }
 
-    public List<Property> findBySellerAndStatus(User seller, PropertyStatus status) {
-        return propertyRepository.findBySellerAndStatus(seller, status);
+    public List<Property> findApprovedProperties() {
+        return propertyRepository.findByStatus(PropertyStatus.APPROVED);
     }
 
-    public List<Property> searchByLocation(String location) {
-        return propertyRepository.findByLocationContainingIgnoreCase(location);
-    }
-
-    public List<Property> searchByTitle(String title) {
-        return propertyRepository.findByTitleContainingIgnoreCase(title);
+    public List<Property> findApprovedByLocation(String location) {
+        return propertyRepository.findByStatusAndLocationContainingIgnoreCase(PropertyStatus.APPROVED, location);
     }
 
     public Property save(Property property) {
@@ -55,10 +51,6 @@ public class PropertyService {
         return propertyRepository.save(property);
     }
 
-    public Property updateProperty(Property property) {
-        return propertyRepository.save(property);
-    }
-
     public void deleteById(Integer id) {
         propertyRepository.deleteById(id);
     }
@@ -66,7 +58,6 @@ public class PropertyService {
     public void approveProperty(Integer propertyId) {
         Property property = propertyRepository.findById(propertyId)
                 .orElseThrow(() -> new RuntimeException("Proprietatea nu a fost gasita."));
-
         property.setStatus(PropertyStatus.APPROVED);
         propertyRepository.save(property);
     }
@@ -74,7 +65,6 @@ public class PropertyService {
     public void rejectProperty(Integer propertyId) {
         Property property = propertyRepository.findById(propertyId)
                 .orElseThrow(() -> new RuntimeException("Proprietatea nu a fost gasita."));
-
         property.setStatus(PropertyStatus.REJECTED);
         propertyRepository.save(property);
     }

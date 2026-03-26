@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Properties</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="hero-page">
+    <div class="hero-card" style="grid-template-columns: 1fr;">
+        <main class="hero-main">
+            <header class="hero-topbar">
+                <div>
+                    <h1>Search Properties</h1>
+                    <p>Descoperă proprietăți aprobate și filtrează rapid după locație.</p>
+                </div>
+                <div class="topbar-actions">
+                    <a th:href="@{/}" class="pill-btn">Home</a>
+                    <a th:href="@{/login}" class="pill-btn">Login</a>
+                </div>
+            </header>
+
+            <section class="hero-content" style="grid-template-columns: 1fr;">
+                <div class="search-panel">
+                    <form class="search-form" th:action="@{/properties}" method="get">
+                        <input class="form-control" type="text" name="location" th:value="${location}" placeholder="Search by city or neighborhood">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </form>
+                </div>
+
+                <div class="search-panel">
+                    <h3>Available properties</h3>
+                    <div th:if="${#lists.isEmpty(properties)}">
+                        <p>Nu există proprietăți disponibile.</p>
+                    </div>
+
+                    <div th:each="property : ${properties}" class="mini-stat" style="margin-bottom: 18px;">
+                        <div class="mini-stat-label" th:text="${property.location}">Location</div>
+                        <div class="mini-stat-value" th:text="${property.title}">Title</div>
+                        <p style="margin: 12px 0;" th:text="${property.description}">Description</p>
+                        <p><strong th:text="${property.price} + ' €'">Price</strong></p>
+                        <a class="btn btn-secondary" th:href="@{'/properties/' + ${property.id}}">View details</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+</body>
+</html>

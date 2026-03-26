@@ -18,4 +18,6 @@ public interface PropertyRepository extends JpaRepository<Property, Integer> {
     List<Property> findByLocationContainingIgnoreCase(String location);
 
     List<Property> findByTitleContainingIgnoreCase(String title);
+
+    List<Property> findByStatusAndLocationContainingIgnoreCase(PropertyStatus status, String location);
 }

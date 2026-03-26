@@ -19,7 +19,7 @@ public class PropertyRequest {
     private String description;
 
     @NotNull(message = "Pretul este obligatoriu.")
-    @DecimalMin(value = "0.0", inclusive = false, message = "Pretul trebuie sa fie mai mare decat 0.")
+    @DecimalMin(value = "0.01", message = "Pretul trebuie sa fie mai mare decat 0.")
     private BigDecimal price;
 
     @NotBlank(message = "Locatia este obligatorie.")

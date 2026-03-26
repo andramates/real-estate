@@ -23,4 +23,6 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
             ORDER BY m.sentAt ASC
             """)
     List<Message> findConversation(Integer userId1, Integer userId2);
+
+    List<Message> findByReceiverOrderBySentAtDesc(User receiver);
 }
