@@ -37,6 +37,10 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "seller_type", length = 20)
+    private SellerType sellerType;
+
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();

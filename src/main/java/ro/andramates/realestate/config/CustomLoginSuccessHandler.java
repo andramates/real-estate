@@ -6,10 +6,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Set;
 
+@Component
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
@@ -22,10 +24,12 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         if (roles.contains("ROLE_ADMIN")) {
             response.sendRedirect("/admin");
-        } else if  (roles.contains("ROLE_BUYER")) {
+        } else if (roles.contains("ROLE_BUYER")) {
             response.sendRedirect("/buyer");
-        } else {
+        } else if (roles.contains("ROLE_SELLER")) {
             response.sendRedirect("/seller");
+        } else {
+            response.sendRedirect("/");
         }
     }
 }

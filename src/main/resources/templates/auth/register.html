@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create account</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="page-shell">
+    <div class="auth-card">
+        <section class="auth-left">
+            <div class="brand-badge">Real Estate Platform</div>
+
+            <h1 class="auth-hero-title">
+                Create your account and start exploring instantly.
+            </h1>
+
+            <div class="auth-left-spacer"></div>
+
+            <p class="auth-left-text">
+                Creează un cont nou și intră într-o platformă modernă pentru căutarea,
+                publicarea și administrarea proprietăților.
+            </p>
+        </section>
+
+        <section class="auth-right">
+            <div class="auth-form-wrap">
+                <h2 class="section-title medium">Create account</h2>
+                <p class="section-subtitle">
+                    Introdu datele necesare pentru înregistrare.
+                </p>
+
+                <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+
+                <form th:action="@{/register}" th:object="${registerRequest}" method="post">
+                    <div class="form-group">
+                        <div class="role-cards">
+                            <label class="role-card">
+                                <input type="radio" th:field="*{role}" value="BUYER" onchange="toggleSellerType()">
+                                <span class="role-card-box">
+                                    <strong>Buyer</strong>
+                                    <small>Caută, salvează și contactează selleri</small>
+                                </span>
+                            </label>
+
+                            <label class="role-card">
+                                <input type="radio" th:field="*{role}" value="SELLER" onchange="toggleSellerType()">
+                                <span class="role-card-box">
+                                    <strong>Seller</strong>
+                                    <small>Publică și gestionează proprietăți</small>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="field-error"
+                             th:if="${#fields.hasErrors('role')}"
+                             th:errors="*{role}"></div>
+                    </div>
+
+                    <div class="form-group" id="sellerTypeWrapper" style="display: none;">
+                        <label class="form-label">Seller type</label>
+                        <div class="role-cards seller-type-cards">
+                            <label class="role-card">
+                                <input type="radio" th:field="*{sellerType}" value="OWNER">
+                                <span class="role-card-box">
+                                    <strong>Owner</strong>
+                                    <small>Public în nume propriu</small>
+                                </span>
+                            </label>
+
+                            <label class="role-card">
+                                <input type="radio" th:field="*{sellerType}" value="AGENT">
+                                <span class="role-card-box">
+                                    <strong>Agent</strong>
+                                    <small>Intermediez tranzacții pentru clienți</small>
+                                </span>
+                            </label>
+
+                            <label class="role-card">
+                                <input type="radio" th:field="*{sellerType}" value="AGENCY">
+                                <span class="role-card-box">
+                                    <strong>Agency</strong>
+                                    <small>Cont dedicat unei agenții imobiliare</small>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="field-error"
+                             th:if="${#fields.hasErrors('sellerType')}"
+                             th:errors="*{sellerType}"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" type="text" th:field="*{username}" placeholder="Username">
+                        <div class="field-error"
+                             th:if="${#fields.hasErrors('username')}"
+                             th:errors="*{username}"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" type="email" th:field="*{email}" placeholder="Email address">
+                        <div class="field-error"
+                             th:if="${#fields.hasErrors('email')}"
+                             th:errors="*{email}"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" type="text" th:field="*{phone}" placeholder="Phone number">
+                        <div class="field-error"
+                             th:if="${#fields.hasErrors('phone')}"
+                             th:errors="*{phone}"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" type="password" th:field="*{password}" placeholder="Password">
+                        <div class="field-error"
+                             th:if="${#fields.hasErrors('password')}"
+                             th:errors="*{password}"></div>
+                    </div>
+
+                    <div class="auth-actions">
+                        <button class="btn btn-primary" type="submit">Create account</button>
+                        <a th:href="@{/}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+
+                <div class="inline-link">
+                    Ai deja cont? <a th:href="@{/login}">Login</a>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    function toggleSellerType() {
+        const sellerRadio = document.querySelector('input[name="role"][value="SELLER"]');
+        const buyerRadio = document.querySelector('input[name="role"][value="BUYER"]');
+        const sellerTypeWrapper = document.getElementById('sellerTypeWrapper');
+        const sellerTypeInputs = document.querySelectorAll('input[name="sellerType"]');
+
+        if (sellerRadio && sellerRadio.checked) {
+            sellerTypeWrapper.style.display = 'block';
+        } else {
+            sellerTypeWrapper.style.display = 'none';
+            sellerTypeInputs.forEach(input => input.checked = false);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        toggleSellerType();
+    });
+</script>
+</body>
+</html>

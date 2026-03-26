@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Real Estate</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="hero-page">
+    <div class="hero-card">
+
+        <aside class="hero-sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-logo">🏢</div>
+                <div class="sidebar-brand-text">
+                    <small>Real Estate Platform</small>
+                    <strong>Professional UI</strong>
+                </div>
+            </div>
+
+            <div class="sidebar-label">Pages</div>
+
+            <nav class="sidebar-nav">
+                <a class="sidebar-link active" th:href="@{/}">Landing</a>
+                <a class="sidebar-link" th:href="@{/register}">Create Account</a>
+                <a class="sidebar-link" th:href="@{/login}">Login</a>
+                <a class="sidebar-link" th:href="@{/properties}">Search Properties</a>
+            </nav>
+        </aside>
+
+        <main class="hero-main">
+            <header class="hero-topbar">
+                <div>
+                    <h1>Luxury real estate, reimagined</h1>
+                    <p>O platformă modernă pentru descoperirea, publicarea și administrarea proprietăților premium.</p>
+                </div>
+
+                <div class="topbar-actions">
+                    <a th:href="@{/properties}" class="pill-btn">Vezi proprietăți</a>
+                    <button class="avatar-btn" type="button">RA</button>
+                </div>
+            </header>
+
+            <section class="hero-content">
+                <div class="hero-panel">
+                    <div>
+                        <div class="hero-chip">Trusted by buyers, sellers &amp; admins</div>
+                        <h2>Find, publish and manage premium properties in one professional platform.</h2>
+                        <p>
+                            Interfață modernă pentru cumpărători, selleri și administratori:
+                            căutare rapidă, publicare de anunțuri, favorite, mesagerie și aprobare administrativă.
+                        </p>
+                    </div>
+
+                    <div>
+                        <div class="hero-actions">
+                            <a th:href="@{/properties}" class="btn btn-primary">Explore properties</a>
+                            <a th:href="@{/register}" class="btn btn-secondary">Create account</a>
+                        </div>
+
+                        <div class="stats-row">
+                            <div class="mini-stat">
+                                <div class="mini-stat-label">Active listings</div>
+                                <div class="mini-stat-value">1,240+</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-label">Saved searches</div>
+                                <div class="mini-stat-value">8,500+</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-label">Seller response</div>
+                                <div class="mini-stat-value">&lt; 2h</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-column">
+                    <div class="search-panel">
+                        <h3>Quick search</h3>
+                        <p>Acces rapid către proprietățile potrivite, fără o interfață încărcată.</p>
+
+                        <form class="search-form" th:action="@{/properties}" method="get">
+                            <input class="form-control" type="text" name="location" placeholder="Search by city or neighborhood">
+
+                            <div class="search-grid">
+                                <select class="form-select" name="type">
+                                    <option value="">Property type</option>
+                                    <option>Apartment</option>
+                                    <option>House</option>
+                                    <option>Penthouse</option>
+                                </select>
+
+                                <select class="form-select" name="budget">
+                                    <option value="">Budget</option>
+                                    <option value="50000">Up to €50,000</option>
+                                    <option value="100000">Up to €100,000</option>
+                                    <option value="250000">Up to €250,000</option>
+                                </select>
+                            </div>
+
+                            <button class="btn btn-primary" type="submit">Search now</button>
+                        </form>
+                    </div>
+
+                    <div class="cta-panel">
+                        <p>Seller area</p>
+                        <h3>List your property in minutes</h3>
+                        <p>
+                            Creează cont, publică proprietăți și gestionează aprobările într-un flux simplu,
+                            gândit pentru o experiență premium.
+                        </p>
+                        <a th:href="@{/register}" class="btn btn-light">Create account</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+</body>
+</html>
